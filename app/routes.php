@@ -195,3 +195,55 @@ $app->delete('/api/events/{id}', function ($id, Request $request) use ($app) {
 
     return $app->json('No content', 204);
 })->bind('api_event_delete');
+
+
+//=======================================================
+// Matchs
+// ======================================================
+// Get all matchs
+$app->get('/api/matchs', function () use ($app) {
+
+    $matchs = $app['dao.match']->findAll();
+    $responseData = array();
+    foreach ($matchs as $match) {
+        $responseData[] = array(
+            'id' => $match->getId(),
+            'home_team_id' => $match->getHome_team_id(),
+            'away_team_id' => $match->getAway_team_id(),
+            'home_score' => $match->getHome_score(),
+            'away_score' => $match->getAway_score(),
+            'snitch' => $match->getSnitch(),
+            'p' => $match->getP(),
+            'padj' => $match->getPadj(),
+            'swim' => $match->getSwim(),
+            'event_id' => $match->getEvent_id(),
+            'event_order' => $match->getEvent_order()
+        );
+    }
+
+    return $app->json($responseData);
+})->bind('api_matchs');
+
+// Get one event
+$app->get('/api/matchs/{id}', function ($id, Request $request) use ($app) {
+    $match = $app['dao.match']->find($id);
+    if (!isset($match)) {
+        $app->abort(404, 'Match does not exist');
+    }
+
+    $responseData = array(
+        'id' => $match->getId(),
+        'home_team_id' => $match->getHome_team_id(),
+        'away_team_id' => $match->getAway_team_id(),
+        'home_score' => $match->getHome_score(),
+        'away_score' => $match->getAway_score(),
+        'snitch' => $match->getSnitch(),
+        'p' => $match->getP(),
+        'padj' => $match->getPadj(),
+        'swim' => $match->getSwim(),
+        'event_id' => $match->getEvent_id(),
+        'event_order' => $match->getEvent_order()
+    );
+
+    return $app->json($responseData);
+})->bind('api_match');

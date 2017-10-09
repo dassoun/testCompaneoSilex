@@ -15,6 +15,9 @@ $app['dao.team'] = function($app) {
 $app['dao.event'] = function($app) {
     return new SilexApi\DAO\EventDAO($app['db']);
 };
+$app['dao.match'] = function($app) {
+    return new SilexApi\DAO\MatchDAO($app['db']);
+};
 
 // Register JSON data decoder for JSON requests
 $app->before(function (Request $request) {
