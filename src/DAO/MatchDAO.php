@@ -66,16 +66,16 @@ class MatchDAO {
 
     public function save(Match $match) {
         $matchData = array(
-            'homeTeamId' => $match->getHomeTeamId(),
-            'awayTeamId' => $match->getAwayTeamId(),
-            'homeScore' => $match->getHomeScore(),
-            'awayScore' => $match->getAwayScore(),
+            'home_team_id' => $match->getHome_team_id(),
+            'away_team_id' => $match->getAway_team_id(),
+            'home_score' => $match->getHome_score(),
+            'away_score' => $match->getAway_score(),
             'snitch' => $match->getSnitch(),
             'p' => $match->getP(),
             'paddj' => $match->getPaddj(),
             'swim' => $match->getSwim(),
-            'eventId' => $match->getEventId(),
-            'eventOrder' => $match->getEventOrder(),
+            'event_id' => $match->getEvent_id(),
+            'event_order' => $match->getEvent_order(),
         );
 
         if ($match->getId()) {
@@ -91,4 +91,16 @@ class MatchDAO {
         $this->getDb()->delete('matches', array('id' => $id));
     }
 
+    public function findAllByTeamId($teamId) {
+        $sql = "SELECT * FROM matches WHERE home_team_id = ? OR away_team_id = ?";
+        $result = $this->getDb()->fetchAll($sql, array($teamId, $teamId));
+
+        $entities = array();
+        foreach ($result as $row) {
+            $id = $row['id'];
+            $entities[$id] = $this->buildDomainObject($row);
+        }
+
+        return $entities;
+    }
 }

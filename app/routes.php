@@ -224,7 +224,7 @@ $app->get('/api/matchs', function () use ($app) {
     return $app->json($responseData);
 })->bind('api_matchs');
 
-// Get one event
+// Get one Match
 $app->get('/api/matchs/{id}', function ($id, Request $request) use ($app) {
     $match = $app['dao.match']->find($id);
     if (!isset($match)) {
@@ -247,3 +247,27 @@ $app->get('/api/matchs/{id}', function ($id, Request $request) use ($app) {
 
     return $app->json($responseData);
 })->bind('api_match');
+
+// Get all matchs for a team
+$app->get('/api/teams/{teamId}/matchs', function ($teamId, Request $request) use ($app) {
+
+    $matchs = $app['dao.match']->findAllByTeamId($teamId);
+    $responseData = array();
+    foreach ($matchs as $match) {
+        $responseData[] = array(
+            'id' => $match->getId(),
+            'home_team_id' => $match->getHome_team_id(),
+            'away_team_id' => $match->getAway_team_id(),
+            'home_score' => $match->getHome_score(),
+            'away_score' => $match->getAway_score(),
+            'snitch' => $match->getSnitch(),
+            'p' => $match->getP(),
+            'padj' => $match->getPadj(),
+            'swim' => $match->getSwim(),
+            'event_id' => $match->getEvent_id(),
+            'event_order' => $match->getEvent_order()
+        );
+    }
+
+    return $app->json($responseData);
+})->bind('api_matchs_by_team');
