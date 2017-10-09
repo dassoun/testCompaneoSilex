@@ -21,7 +21,7 @@ class TeamDAO {
      * Creates a Team object based on a DB row.
      *
      * @param array $row The DB row containing Team data.
-     * @return \SilexApi\Team
+     * @return \SilexApi\Domain\Team
      */
     protected function buildDomainObject(array $row) {
         $team = new Team();
