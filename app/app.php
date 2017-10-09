@@ -12,6 +12,9 @@ $app->register(new Silex\Provider\DoctrineServiceProvider());
 $app['dao.team'] = function($app) {
     return new SilexApi\DAO\TeamDAO($app['db']);
 };
+$app['dao.event'] = function($app) {
+    return new SilexApi\DAO\EventDAO($app['db']);
+};
 
 // Register JSON data decoder for JSON requests
 $app->before(function (Request $request) {
