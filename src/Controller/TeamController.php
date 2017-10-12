@@ -38,9 +38,7 @@ Class TeamController {
     }
 
     public function addAction(Application $app, Request $request) {
-        $data = json_decode($request->getContent(), true);
-        $request->request->replace(is_array($data) ? $data : array());
-
+        
         if (!$request->request->has('name')) {
             return $app->json('Missing parameter: name', 400);
         }
@@ -58,9 +56,7 @@ Class TeamController {
     }
     
     public function updateAction(Application $app, Request $request, $id) {
-        $data = json_decode($request->getContent(), true);
-        $request->request->replace(is_array($data) ? $data : array());
-
+        
         if (!$request->request->has('name')) {
             return $app->json('Missing parameter: name', 400);
         }
